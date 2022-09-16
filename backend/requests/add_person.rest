@@ -1,0 +1,7 @@
+POST https://fullstackphonebook.fly.dev/api/persons/ 
+Content-Type: application/json
+
+{
+    "name": "N B",
+    "number": "001122"
+}

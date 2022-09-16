@@ -1,0 +1,71 @@
+html {
+  background-color: mintcream;
+  color: rgb(58, 143, 116);
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: 18px;
+}
+
+h1 {
+  color:rgb(154, 124, 202);
+  font-size: 40px;
+}
+
+h2 {
+  color:rgb(154, 124, 202);
+  font-size: 24px;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+.person {
+  padding-top: 3px;
+  font-size: 18px;
+}
+
+.notification {
+  color:rgb(53, 117, 98);
+  background: rgb(221, 236, 233);
+  font-size: 18px;
+  border-color:rgb(86, 145, 125);
+  border-style: solid;
+  border-radius: 4px;
+  padding: 6px;
+  margin-bottom: 8px;
+}
+
+.error {
+  color:rgb(255, 0, 85);
+  background: rgb(175, 175, 175);
+  font-size: 18px;
+  border-color:rgb(255, 0, 76);
+  border-style: solid;
+  border-radius: 4px;
+  padding: 6px;
+  margin-bottom: 8px;
+}
+
+.delete {
+  background-color:lavender;
+  border-color:rgb(194, 163, 223);
+  border-radius: 9px;
+  padding: 3px 4px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: bolder;
+  color:rgb(132, 86, 179);
+}
+
+input {
+  margin-left: 28px;
+  margin-right: 2px;
+  color:rgb(97, 66, 151);
+}
+
+.add {
+  background-color: lavender;
+  border-radius: 9px;
+  color:rgb(133, 97, 170);
+  padding: 8px 30px;
+  text-align: center;
+  font-size: 15px;
+  margin-left: 157px;
+}
