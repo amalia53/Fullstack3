@@ -1,4 +1,3 @@
 # Fullstack
 
-[Puhelinluettelo-sovellus]
-(https://fullstackphonebook.fly.dev)
+[Puhelinluettelo-sovellus](https://fullstackphonebook.fly.dev)
