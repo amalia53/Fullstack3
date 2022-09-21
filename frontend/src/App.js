@@ -19,7 +19,6 @@ const App = () => {
       .getAll()
       .then(initialPersons => { setPersons(initialPersons) })
   }, [])
-  console.log(persons)
 
   const shown = filtered
     ? Filter(persons, search)
@@ -30,6 +29,9 @@ const App = () => {
     if (persons.some(person => person.name === newName)) {
       const person = persons.filter(person => person.name === newName)[0]
       updateNumber(person, newNumber)
+    } else if (newName === "" || newNumber === "") {
+      setMessage("No name or number given")
+      setTimeout(() => setMessage(), 3000)
     } else {
       numberService
         .add(NewPerson(newName, newNumber))
