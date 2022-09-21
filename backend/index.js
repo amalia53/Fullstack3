@@ -4,16 +4,15 @@ const express = require("express")
 const app = express()
 
 const morgan = require("morgan")
+const { collection } = require("./models/person")
 const Person = require("./models/person")
 
 morgan.token("body", function get_body(req) {
     return JSON.stringify(req.body)
 })
-
-app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body"))
-
-app.use(express.json())
 app.use(express.static("build"))
+app.use(express.json())
+app.use(morgan(":method :url :status :res[content-length] - :response-time ms :body"))
 
 app.get("/api/persons", (request, response) => {
     Person.find({}).then(persons => {
@@ -21,33 +20,32 @@ app.get("/api/persons", (request, response) => {
     })
 })
 
-// app.get("/info", (request, response) => {
-//     response.send(`Phonebook has info for ${persons.length} people <br>` + new Date())
-// })
-
-app.get("/api/persons/:id", (request, response) => {
-    Person.findById(request.params.id).then(person => {
-        if (person) {
-            console.log("Found ", person)
-            response.json(person)
-        }
-
-        else {
-            response.status(404).end()
-        }
-    })
+app.get("/info", (request, response) => {
+    Person.collection.countDocuments().then((amount => {
+        response.send(`Phonebook has info for ${amount} people <br>` + new Date())
+    }))
 })
 
-app.delete("/api/persons/:id", (request, response) => {
-    Person.findByIdAndDelete(request.params.id, function (error, docs) {
-        if (error) {
-            console.log(error)
-        }
-        else {
-            console.log("Deleted : ", docs);
-        }
-    })
-    response.status(204).end()
+app.get("/api/persons/:id", (request, response, next) => {
+    Person.findById(request.params.id)
+        .then(person => {
+            if (person) {
+                console.log("Found ", person)
+                response.json(person)
+            }
+            else {
+                response.status(404).end()
+            }
+        })
+        .catch(error => next(error))
+})
+
+app.delete("/api/persons/:id", (request, response, next) => {
+    Person.findByIdAndRemove(request.params.id)
+        .then(result => {
+            response.status(204).end()
+        })
+        .catch(error => next(error))
 })
 
 app.post("/api/persons", (request, response) => {
@@ -59,12 +57,6 @@ app.post("/api/persons", (request, response) => {
         })
     }
 
-    // if (Person.exists({ name: body.name })) {
-    //     return response.status(400).json({
-    //         error: "name already in use"
-    //     })
-    // }
-
     const newPerson = new Person({
         name: body.name,
         number: body.number
@@ -74,6 +66,32 @@ app.post("/api/persons", (request, response) => {
         response.json(savedPerson)
     })
 })
+
+app.put("/api/persons/:id", (request, response, next) => {
+    const body = request.body
+
+    const updated = {
+        name: body.name,
+        number: body.number
+    }
+
+    Person.findByIdAndUpdate(request.params.id, updated, { new: true })
+        .then(updatedPerson => {
+            response.json(updatedPerson)
+        })
+        .catch(error => next(error))
+})
+
+const errorHandler = (error, request, response, next) => {
+    console.error(error.message)
+    if (error.name === 'CastError') {
+        return response.status(400).send({ error: 'malformatted id' })
+    }
+
+    next(error)
+}
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
