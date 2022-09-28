@@ -13,12 +13,20 @@ mongoose.connect(url)
 const personSchema = new mongoose.Schema({
     name: {
         type: String,
-        minlength: 3,
-        required: true
+        minlength: [3, "Name must be at least 3 letters long"],
+        required: "Name is required"
     },
-    number: { 
+    number: {
         type: String,
-        required: true 
+        required: "Number is required",
+        minlength: [8, "Number must contain at least 7 numbers and be partitioned with a hyphen (-) after either 2 or 3 numbers (for example 123-4567 or 12-345678)"],
+        validate: {
+            validator: function (number) {
+                const reg = /^[0-9]{2,3}[-][0-9]{4,100}$/
+                return reg.test(number)
+            }, 
+            message: "Number must be partitioned with a hyphen (-) after either 2 or 3 numbers (for example 123-4567 or 12-345678)"
+        }
     }
 })
 

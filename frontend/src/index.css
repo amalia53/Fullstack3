@@ -1,6 +1,6 @@
 html {
-  background-color: mintcream;
-  color: rgb(58, 143, 116);
+  background-color: rgb(21, 17, 22);
+  color: rgb(209, 204, 223);
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-size: 18px;
 }
@@ -15,17 +15,17 @@ h2 {
   font-size: 24px;
   font-family:Arial, Helvetica, sans-serif;
 }
-
+z
 .person {
   padding-top: 3px;
   font-size: 18px;
 }
 
 .notification {
-  color:rgb(53, 117, 98);
-  background: rgb(221, 236, 233);
+  color:rgb(60, 97, 86);
+  background: rgb(159, 179, 175);
   font-size: 18px;
-  border-color:rgb(86, 145, 125);
+  border-color:rgb(78, 119, 106);
   border-style: solid;
   border-radius: 4px;
   padding: 6px;
@@ -33,7 +33,7 @@ h2 {
 }
 
 .error {
-  color:rgb(255, 0, 85);
+  color:rgb(255, 0, 98);
   background: rgb(175, 175, 175);
   font-size: 18px;
   border-color:rgb(255, 0, 76);
@@ -44,26 +44,27 @@ h2 {
 }
 
 .delete {
-  background-color:lavender;
-  border-color:rgb(194, 163, 223);
+  background-color: rgb(199, 199, 253);
+  border-color:rgb(193, 170, 214);
   border-radius: 9px;
   padding: 3px 4px;
   text-align: center;
   font-size: 11px;
   font-weight: bolder;
-  color:rgb(132, 86, 179);
+  color:rgb(100, 63, 138);
 }
 
 input {
   margin-left: 28px;
   margin-right: 2px;
-  color:rgb(97, 66, 151);
+  color:rgb(59, 44, 85);
+  background-color: rgb(207, 201, 216);
 }
 
 .add {
-  background-color: lavender;
+  background-color: rgb(199, 199, 253);
   border-radius: 9px;
-  color:rgb(133, 97, 170);
+  color:rgb(100, 63, 138);
   padding: 8px 30px;
   text-align: center;
   font-size: 15px;

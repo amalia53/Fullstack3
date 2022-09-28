@@ -7,9 +7,9 @@ import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([])
-  const [newName, setNewName] = useState('')
-  const [newNumber, setNewNumber] = useState('')
-  const [search, setSearch] = useState('')
+  const [newName, setNewName] = useState("")
+  const [newNumber, setNewNumber] = useState("")
+  const [search, setSearch] = useState("")
   const [filtered, setFiltered] = useState(false)
   const [message, setMessage] = useState()
   const [isError, setIsError] = useState(false)
@@ -29,49 +29,55 @@ const App = () => {
     if (persons.some(person => person.name === newName)) {
       const person = persons.filter(person => person.name === newName)[0]
       updateNumber(person, newNumber)
-    } else if (newName === "" || newNumber === "") {
-      setMessage("No name or number given")
-      setTimeout(() => setMessage(), 3000)
     } else {
       numberService
         .add(NewPerson(newName, newNumber))
-        .then(newPerson => setPersons(persons.concat(newPerson)))
-      setMessage(`Added ${newName}`)
-      setTimeout(() => setMessage(), 3000)
+        .then(
+          newPerson => setPersons(persons.concat(newPerson)),
+          setMessage(`Added ${newName}`),
+          setTimeout(() => setMessage(), 4000))
+        .catch(error => {
+          setIsError(true)
+          setMessage(error.response.data.error)
+          setTimeout(() => setMessage(), 12000)
+          setTimeout(() => setIsError(false), 12000)
+        })
     }
+
     setNewName('')
     setNewNumber('')
   }
 
   const deletePerson = (id, name) => {
-    window.confirm(`Are you sure you want to delete ${name}?`)
-    numberService
-      .remove(id)
-      .then(setPersons(persons.filter(person => person.id !== id)))
-    setMessage(`Deleted ${name}`)
-    setTimeout(() => setMessage(), 3000)
+    if (window.confirm(`Are you sure you want to delete ${name}?`)) {
+      numberService
+        .remove(id)
+        .then(setPersons(persons.filter(person => person.id !== id)))
+      setMessage(`Deleted ${name}`)
+      setTimeout(() => setMessage(), 4000)
+    }
   }
 
   const updateNumber = (person, newNumber) => {
     const newPerson = { ...person, number: newNumber }
-    window.confirm(`${person.name} is already added to phonebook. Do you want to replace the old number with a new one?`)
-    setMessage(`Updated ${person.name}`)
-    setTimeout(() => setMessage(), 3000)
+    if (window.confirm(`${person.name} is already added to phonebook. Do you want to replace the old number with a new one?`)) {
+      setMessage(`Updated ${person.name}`)
+      setTimeout(() => setMessage(), 4000)
 
-    numberService
-      .update(person.id, newPerson)
-      .then(setPersons(persons.map(person =>
-        newPerson.id !== person.id
-          ? person
-          : newPerson
-      )))
-      .catch(error => {
-        setMessage(`${person.name} was already deleted from server`)
-        setIsError(true)
-        setTimeout(() => setMessage(), 6000)
-        setTimeout(() => setIsError(false), 6000)
-      }
-      )
+      numberService
+        .update(person.id, newPerson)
+        .then(setPersons(persons.map(person =>
+          newPerson.id !== person.id
+            ? person
+            : newPerson
+        )))
+        .catch(error => {
+          setMessage(error.response.data.error)
+          setIsError(true)
+          setTimeout(() => setMessage(), 8000)
+          setTimeout(() => setIsError(false), 8000)
+        })
+    }
   }
 
   const handleNameChange = (event) => {
