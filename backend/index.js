@@ -41,9 +41,7 @@ app.get("/api/persons/:id", (request, response, next) => {
 
 app.delete("/api/persons/:id", (request, response, next) => {
     Person.findByIdAndRemove(request.params.id)
-        .then(result => {
-            response.status(204).end()
-        })
+        .then(response.status(204).end())
         .catch(error => next(error))
 })
 
@@ -81,15 +79,15 @@ const errorHandler = (error, request, response, next) => {
         return response.status(400).send({ error: "malformatted id" })
     }
     else if (error.errors["name"] !== undefined && error.errors["number"] !== undefined) {
-        return response.status(400).json({ error: `${error.errors["name"].message} and ${error.errors["number"].message}`})
+        return response.status(400).json({ error: `${error.errors["name"].message} and ${error.errors["number"].message}` })
     }
     else if (error.errors["name"] !== undefined) {
         console.log("Nimivirhe")
-        return response.status(400).json({ error: error.errors["name"].message})
+        return response.status(400).json({ error: error.errors["name"].message })
     }
     else if (error.errors["number"] !== undefined) {
         console.log("Numerovirhe")
-        return response.status(400).json({ error: error.errors["number"].message})
+        return response.status(400).json({ error: error.errors["number"].message })
     }
     next(error)
 }

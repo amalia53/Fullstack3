@@ -13,6 +13,7 @@ const App = () => {
   const [filtered, setFiltered] = useState(false)
   const [message, setMessage] = useState()
   const [isError, setIsError] = useState(false)
+  let messageTimeout = -1, errorTimeout = -1
 
   useEffect(() => {
     numberService
@@ -34,18 +35,18 @@ const App = () => {
         .add(NewPerson(newName, newNumber))
         .then(
           newPerson => setPersons(persons.concat(newPerson)),
+          setIsError(false),
           setMessage(`Added ${newName}`),
           setTimeout(() => setMessage(), 4000))
         .catch(error => {
           setIsError(true)
           setMessage(error.response.data.error)
-          setTimeout(() => setMessage(), 12000)
-          setTimeout(() => setIsError(false), 12000)
+          setTimeout(() => setMessage(), 4000)
+          setTimeout(() => setIsError(false), 4000)
         })
     }
-
-    setNewName('')
-    setNewNumber('')
+    setNewName("")
+    setNewNumber("")
   }
 
   const deletePerson = (id, name) => {
@@ -53,6 +54,7 @@ const App = () => {
       numberService
         .remove(id)
         .then(setPersons(persons.filter(person => person.id !== id)))
+      setIsError(false)
       setMessage(`Deleted ${name}`)
       setTimeout(() => setMessage(), 4000)
     }
@@ -61,22 +63,23 @@ const App = () => {
   const updateNumber = (person, newNumber) => {
     const newPerson = { ...person, number: newNumber }
     if (window.confirm(`${person.name} is already added to phonebook. Do you want to replace the old number with a new one?`)) {
+      setIsError(false)
       setMessage(`Updated ${person.name}`)
       setTimeout(() => setMessage(), 4000)
 
       numberService
         .update(person.id, newPerson)
+        .catch(error => {
+          setIsError(true)
+          setMessage(error.response.data.error)
+          setTimeout(() => setMessage(), 4000)
+          setTimeout(() => setIsError(false), 4000)
+        })
         .then(setPersons(persons.map(person =>
           newPerson.id !== person.id
             ? person
             : newPerson
         )))
-        .catch(error => {
-          setMessage(error.response.data.error)
-          setIsError(true)
-          setTimeout(() => setMessage(), 8000)
-          setTimeout(() => setIsError(false), 8000)
-        })
     }
   }
 
