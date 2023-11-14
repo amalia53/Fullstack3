@@ -16,7 +16,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy": "cd ../backend && rm -rf build && cd ../frontend && npm run build && cp -r build ../backend && cd ../ && git add . && git commit -m uibuild && git push && cd backend && npm run deploy",
+    "deploy": "cd ../backend && rm -rf build && cd ../frontend && npm install && npm run build && cp -r build ../backend && cd ../ && git add . && git commit -m uibuild && git push && cd backend && npm run build:ui",
     "test": "echo \\\"Error: no test specified\\\" && exit 1"
   },
   "eslintConfig": {
