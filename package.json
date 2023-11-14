@@ -6,7 +6,7 @@
     "eslint": "^8.24.0"
   },
   "scripts": {
-    "build:ui": "cd backend && rm -rf build && cd ../frontend && npm run build && cp -r build ../backend",
+    "build:ui": "cd backend && rm -rf build && cd ../frontend && npm run build && cp -r build ../backend && cd ../",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push"
   }
 }
